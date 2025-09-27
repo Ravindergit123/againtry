@@ -24,3 +24,21 @@ resource "azurerm_resource_group" "rg_first" {
 
 }
 
+resource "azurerm_storage_account" "rgstg" {
+  name                     = "rgst"
+  resource_group_name      = azurerm_resource_group.rg_first.name
+  location                 = azurerm_resource_group.rg_first.location
+  account_tier             = "Standard"
+  account_replication_type  = "LRS"
+
+  tags = {
+    environment = "production"
+  }
+}
+
+resource "azurerm_storage_container" "rgcon" {
+  name                  = "rgcon"
+  storage_account_name  = azurerm_storage_account.rgstg.name
+  container_access_type = "private"
+}
+
